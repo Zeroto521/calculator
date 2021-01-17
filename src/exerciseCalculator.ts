@@ -18,12 +18,13 @@ const calculateExercise = (exerciseTimes: Array<number>, target: number): Exerci
   const periodLength = exerciseTimes.length
   const trainingDays = exerciseTimes.filter(e => e > 0).length
   const success = exerciseTimes.every(e => e >= target)
+  const successDays = exerciseTimes.filter(e => e >= target).length
   const average = exerciseTimes.reduce((a, b) => a + b) / periodLength
 
   let rating
-  if (trainingDays === periodLength)
+  if (successDays === periodLength)
     rating = 3
-  else if (trainingDays >= periodLength / 2)
+  else if (successDays >= periodLength / 2)
     rating = 2
   else
     rating = 1
@@ -41,4 +42,28 @@ const calculateExercise = (exerciseTimes: Array<number>, target: number): Exerci
   }
 }
 
-console.log(calculateExercise([3, 0, 2, 4.5, 0, 3, 1], 2))
+interface MultiplyValues {
+  value: number
+  array: number[]
+}
+
+const parseArguments = (args: Array<string>): MultiplyValues => {
+  if (args.length < 4) throw new Error('Not enough arguments')
+
+  if (args.slice(2).every(e => !isNaN(Number(e)))) {
+    const value = Number(args[2])
+    const array = args.slice(3).map(a => Number(a))
+    return { value, array }
+  } else {
+    throw new Error('Provided values were not numbers!')
+  }
+}
+
+try {
+  const { value, array } = parseArguments(process.argv)
+  console.log(calculateExercise(array, value))
+} catch (e) {
+  console.log(e.message)
+}
+
+
