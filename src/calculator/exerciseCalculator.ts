@@ -1,3 +1,21 @@
+interface exerciseInputType {
+  value: number
+  array: number[]
+}
+
+const exerciseParseArguments = (args: Array<string>): exerciseInputType => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+
+  if (args.slice(2).every(e => !isNaN(Number(e)))) {
+    const value = Number(args[2]);
+    const array = args.slice(3).map(a => Number(a));
+    return { value, array };
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+};
+
+
 interface ExerciseArray {
   periodLength: number
   trainingDays: number
@@ -42,26 +60,14 @@ const calculateExercise = (exerciseTimes: Array<number>, target: number): Exerci
   };
 };
 
-interface exerciseInputType {
-  value: number
-  array: number[]
-}
 
-const exerciseParseArguments = (args: Array<string>): exerciseInputType => {
-  if (args.length < 4) throw new Error('Not enough arguments');
-
-  if (args.slice(2).every(e => !isNaN(Number(e)))) {
-    const value = Number(args[2]);
-    const array = args.slice(3).map(a => Number(a));
-    return { value, array };
-  } else {
-    throw new Error('Provided values were not numbers!');
+if (require.main === module) {
+  try {
+    const { value, array } = exerciseParseArguments(process.argv);
+    console.log(calculateExercise(array, value));
+  } catch (e) {
+    console.log(e.message);
   }
-};
-
-try {
-  const { value, array } = exerciseParseArguments(process.argv);
-  console.log(calculateExercise(array, value));
-} catch (e) {
-  console.log(e.message);
 }
+
+export default calculateExercise;
