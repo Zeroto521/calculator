@@ -18,15 +18,14 @@ const bmiParseArguments = (args: Array<string>): bmiInputType => {
 }
 
 
-const calculateBMI = (mass: number, height: number): string => {
-  if (mass <= 0 || height <= 0) {
+const calculateBMI = (weight: number, height: number): string => {
+  if (weight <= 0 || height <= 0) {
     throw new Error(`Provided values must be greater than 0!`)
   }
 
-  const bmi = mass / height ** 2
+  const bmi = weight / height ** 2
 
   let messgae
-
   if (bmi < 25) {
     messgae = "Normal (healthy weight)"
   } else if (25 <= bmi && bmi <= 29) {
@@ -38,10 +37,14 @@ const calculateBMI = (mass: number, height: number): string => {
   return messgae
 }
 
-try {
-  const { value1, value2 } = bmiParseArguments(process.argv)
-  const result = calculateBMI(value1, value2)
-  console.log(result)
-} catch (e) {
-  console.log(e.message)
+if (require.main === module) {
+  try {
+    const { value1, value2 } = bmiParseArguments(process.argv)
+    const result = calculateBMI(value1, value2)
+    console.log(result)
+  } catch (e) {
+    console.log(e.message)
+  }
 }
+
+export default calculateBMI
