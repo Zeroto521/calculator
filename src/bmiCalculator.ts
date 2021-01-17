@@ -1,9 +1,9 @@
-interface MultiplyValues {
+interface bmiInputType {
   value1: number
   value2: number
 }
 
-const parseArguments = (args: Array<string>): MultiplyValues => {
+const bmiParseArguments = (args: Array<string>): bmiInputType => {
   if (args.length < 4) throw new Error('Not enough arguments')
   if (args.length > 4) throw new Error('Too many arguments')
 
@@ -39,7 +39,7 @@ const calculateBMI = (mass: number, height: number): string => {
 }
 
 try {
-  const { value1, value2 } = parseArguments(process.argv)
+  const { value1, value2 } = bmiParseArguments(process.argv)
   const result = calculateBMI(value1, value2)
   console.log(result)
 } catch (e) {

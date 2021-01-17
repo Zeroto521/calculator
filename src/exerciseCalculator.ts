@@ -42,12 +42,12 @@ const calculateExercise = (exerciseTimes: Array<number>, target: number): Exerci
   }
 }
 
-interface MultiplyValues {
+interface exerciseInputType {
   value: number
   array: number[]
 }
 
-const parseArguments = (args: Array<string>): MultiplyValues => {
+const exerciseParseArguments = (args: Array<string>): exerciseInputType => {
   if (args.length < 4) throw new Error('Not enough arguments')
 
   if (args.slice(2).every(e => !isNaN(Number(e)))) {
@@ -60,10 +60,8 @@ const parseArguments = (args: Array<string>): MultiplyValues => {
 }
 
 try {
-  const { value, array } = parseArguments(process.argv)
+  const { value, array } = exerciseParseArguments(process.argv)
   console.log(calculateExercise(array, value))
 } catch (e) {
   console.log(e.message)
 }
-
-
